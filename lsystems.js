@@ -208,7 +208,7 @@ function calcOffsets() {
         g_renderer = new LSystems.TurtleRenderer(WIDTH, HEIGHT);
         g_renderer.setAngle(parseInt(document.getElementById('angle').value));
         g_renderer.setConstants(document.getElementById('constants').value);
-        g_renderer.setRenderLineWidths(document.getElementById('linewidths').checked);
+        g_renderer.setRenderLineWidths(false);
         var before = new Date();
         g_renderer.process(g_commands, false);
         var after = new Date();
