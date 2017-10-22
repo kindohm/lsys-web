@@ -22,6 +22,7 @@ var g_renderer;
 var g_commands;
 
 var randomColorPairs = [
+    { a: '#333333', b: '#eeeeee' },
     { a: '#501e00', b: '#5375b7' },
     { a: '#f0c7b2', b: '#08364e' },
     { a: '#bcf01f', b: '#410ce6' },
@@ -131,27 +132,40 @@ function randomize() {
 }
 
 
-function createString(letters, isGroup) {
+function createString(letters, depth) {
+    depth = depth || 1;
+    if (depth > 3) return '';
+
     var letterCount = 0;
     var final = '';
     var rand = Math.random();
     while (true) {
+
+        if (letterCount > 10) {
+            letterCount = 0;
+            final = '';
+        }
+
         if (rand < 0.1) {
             final += '+';
         } else if (rand < 0.2) {
             final += '-';
-        } else if (rand < 0.24) {
-            final += '[' + createString(letters, true) + ']'
-        } else if (rand > 0.2 && rand < 0.7) {
+        } else if (rand < 0.26) {
+            final += '[' + createString(letters, depth + 1) + ']'
+        } else if (rand > 0.26 && rand < 0.6) {
             letterCount++;
             final += letters[getRandomIntInclusive(0, letters.length - 1)];
-        } else if (letterCount > 1 && rand > 0.7) {
+        } else if (letterCount > 1 && rand > 0.6) {
+            if (final.length > 30) {
+                console.warn('way too big');
+                return createString(letters, depth);
+            }
             return final;
         }
 
         rand = Math.random();
     }
-
+    console.log('here');
     return final;
 }
 
