@@ -70,6 +70,45 @@ function onloadHandler() {
             startHandler();
         }
     };
+
+    setInputsFromUrl();
+}
+
+function setInputsFromUrl() {
+    const params = getParamsFromUrl();
+
+    var canvas = document.getElementById('canvas');
+    var foreColorInput = document.getElementById("foreColorInput");
+    var bgColorInput = document.getElementById("bgColorInput");
+    var lineWidthInput = document.getElementById("lineWidthInput");
+    var iterationsInput = document.getElementById("iterations");
+    var angleInput = document.getElementById("angle");
+    var axiomInput = document.getElementById("axiom");
+    var rule1Input = document.getElementById("rule1");
+    var rule2Input = document.getElementById("rule2");
+    var rule3Input = document.getElementById("rule3");
+    var rule4Input = document.getElementById("rule4");
+    var rule5Input = document.getElementById("rule5");
+    var canvasWidthInput = document.getElementById("canvasWidthInput");
+    var canvasHeightInput = document.getElementById("canvasHeightInput");
+
+    foreColorInput.value = params.foreColor || '#000';
+    bgColorInput.value = params.bgColor || '#ccc';
+    lineWidthInput.value = params.lineWidth || '2';
+    canvasWidthInput.value = params.canvasWidth || canvasWidthInput.value;
+    canvasHeightInput.value = params.canvasHeight || canvasHeightInput.value;
+
+    iterationsInput.value = params.iterations || 3;
+    angleInput.value = params.angle || 90;
+    axiomInput.value = params.axiom || axiomInput.value;
+    rule1Input.value = params.rule1 || rule1Input.value;
+    rule2Input.value = params.rule2 || rule2Input.value;
+    rule3Input.value = params.rule3 || rule3Input.value;
+    rule4Input.value = params.rule4 || rule4Input.value;
+    rule5Input.value = params.rule5 || rule5Input.value;
+
+    canvas.width = params.canvasWidth || 1500;
+    canvas.height = params.canvasHeight || 800;
 }
 
 function getRandomIntInclusive(min, max) {
@@ -165,14 +204,73 @@ function createString(letters, depth) {
 
         rand = Math.random();
     }
-    console.log('here');
     return final;
+}
+
+function renderImage() {
+    var canvas = document.getElementById('canvas');
+    var img = canvas.toDataURL("image/png");
+    var imgElement = document.getElementById('img');
+    imgElement.setAttribute('src', img);
+}
+
+function getUrl() {
+    var canvasWidth = parseInt(document.getElementById("canvasWidthInput").value);
+    var canvasHeight = parseInt(document.getElementById("canvasHeightInput").value);
+    var foreColor = document.getElementById("foreColorInput").value;
+    var bgColor = document.getElementById("bgColorInput").value;
+    var lineWidth = parseInt(document.getElementById("lineWidthInput").value);
+    var axiom = document.getElementById("axiom").value;
+    var angle = document.getElementById("angle").value;
+    var iterations = document.getElementById("iterations").value;
+    var rule1 = document.getElementById("rule1").value;
+    var rule2 = document.getElementById("rule2").value;
+    var rule3 = document.getElementById("rule3").value;
+    var rule4 = document.getElementById("rule4").value;
+    var rule5 = document.getElementById("rule5").value;
+
+    return `index.html?canvasWidth=${encodeURIComponent(canvasWidth)}&canvasHeight=${encodeURIComponent(canvasHeight)}&foreColor=${encodeURIComponent(foreColor)}&bgColor=${encodeURIComponent(bgColor)}&lineWidth=${encodeURIComponent(lineWidth)}&iterations=${iterations}&angle=${angle}&axiom=${encodeURIComponent(axiom)}&rule1=${encodeURIComponent(rule1)}&rule2=${encodeURIComponent(rule2)}&rule3=${encodeURIComponent(rule3)}&rule4=${encodeURIComponent(rule4)}&rule5=${encodeURIComponent(rule5)}`;
+}
+
+function getParamsFromUrl() {
+    return {
+        canvasWidth: getParameterByName('canvasWidth'),
+        canvasHeight: getParameterByName('canvasHeight'),
+        foreColor: getParameterByName('foreColor'),
+        bgColor: getParameterByName('bgColor'),
+        lineWidth: getParameterByName('lineWidth'),
+        iterations: getParameterByName('iterations'),
+        angle: getParameterByName('angle'),
+        axiom: getParameterByName('axiom'),
+        rule1: getParameterByName('rule1'),
+        rule2: getParameterByName('rule2'),
+        rule3: getParameterByName('rule3'),
+        rule4: getParameterByName('rule4'),
+        rule5: getParameterByName('rule5')
+    };
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function saveUrl() {
+    const url = getUrl();
+    history.pushState({}, "blasdf", url);
 }
 
 /**
  * Form button Start handler
  */
 function startHandler() {
+    saveUrl();
+
     var canvasWidth = parseInt(document.getElementById("canvasWidthInput").value);
     var canvasHeight = parseInt(document.getElementById("canvasHeightInput").value);
 
@@ -275,6 +373,7 @@ function renderCmds() {
 
         // completed
         resetUI("Finished rendering in " + (after - before) + "ms.");
+        renderImage();
 
     }
     catch (e) {

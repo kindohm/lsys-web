@@ -35,7 +35,6 @@
 <body>
       <div>
             <div id="lsystems">
-                  <canvas id="canvas" width="1200" height="800" style="background-color: #ccc"></canvas>
                   <div id="form" class="text-right">
                         <div>
                               <span>Iterations:</span>
@@ -112,15 +111,19 @@
                         <div>
                               <input id="start" type="button" value="Start" onclick="startHandler()" />
                               <input id="randomizeButton" type="button" value="randomize" onclick="randomize()">
+                              <!-- <input id="saveButton" type="button" value="save" onclick="save()"> -->
                         </div>
                         <div id="status" style="padding:4px;font-family:monospace">Press Start to begin.</div>
-
+                        <div id="imgContainer">
+                              <img id="img" style="width: 100px">
+                        </div>
                   </div>
 
 
 
             </div>
       </div>
+      <canvas id="canvas" width="1200" height="800" style="background-color: #ccc"></canvas>
 
 </body>
 
