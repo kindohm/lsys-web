@@ -78,6 +78,12 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
+function getRandomInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.random() * (max - min + 1) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
 function randomize() {
 
     var iterationsInput = document.getElementById("iterations");
@@ -92,9 +98,9 @@ function randomize() {
     var bgColorInput = document.getElementById("bgColorInput");
     var lineWidthInput = document.getElementById("lineWidthInput");
 
-    iterationsInput.value = getRandomIntInclusive(3, 6);
+    iterationsInput.value = getRandomIntInclusive(3, 5);
     angleInput.value = getRandomIntInclusive(1, 360);
-    lineWidthInput.value = getRandomIntInclusive(1, 3);
+    lineWidthInput.value = getRandomInclusive(0.1, 1.0);
 
     var possibleLetters = ['J', 'K', 'L', 'M', 'N'];
     var letters = [];
@@ -169,6 +175,24 @@ function createString(letters, depth) {
     return final;
 }
 
+function save() {
+
+    const svgElement = document.getElementById('svg');
+    const canvas = document.getElementById('canvas');
+    canvas.style.display = "inline";
+    canvg(canvas, svgElement.outerHTML);
+    const dataUrl = canvas.toDataURL("image.png");
+    //window.location = dataUrl;
+
+    var iframe = '<iframe src="' + dataUrl + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+    var x = window.open();
+    x.document.open();
+    x.document.write(iframe);
+    x.document.close();
+    canvas.style.display = "none";
+
+}
+
 /**
  * Form button Start handler
  */
@@ -176,11 +200,11 @@ function startHandler() {
     var canvasWidth = parseInt(document.getElementById("canvasWidthInput").value);
     var canvasHeight = parseInt(document.getElementById("canvasHeightInput").value);
 
-    var canvas = document.getElementById('canvas');
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-    HEIGHT = canvas.height;
-    WIDTH = canvas.width;
+    var svg = document.getElementById('svg');
+    svg.width = canvasWidth;
+    svg.height = canvasHeight;
+    HEIGHT = canvasHeight;
+    WIDTH = canvasWidth;
     FORECOLOR = document.getElementById("foreColorInput").value;
     BGCOLOR = document.getElementById("bgColorInput").value;
     LINEWIDTH = parseInt(document.getElementById("lineWidthInput").value);
@@ -631,23 +655,16 @@ const RAD = Math.PI / 180.0;
 
                 var bg = BGCOLOR;
                 var fg = FORECOLOR;
+                var svg = document.getElementById('svg');
+                var svgNS = svg.namespaceURI;
+
+                while (svg.firstChild) {
+                    svg.removeChild(svg.firstChild);
+                }
 
                 if (draw) {
-                    var canvas = document.getElementById('canvas');
-                    var ctx = canvas.getContext('2d');
 
-                    // clear the background 
-                    ctx.save();
-                    //ctx.fillStyle = "rgb(255,255,255)";
-                    ctx.fillStyle = bg;
-                    ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-                    // offset as required
-                    ctx.translate(this._xOffset, 0);
-
-                    // initial colour if specific colouring not used
-                    //ctx.strokeStyle = "rgb(0,0,0)";
-                    ctx.strokeStyle = fg;
                 }
 
                 // start at grid 0,0 facing north with no colour index
@@ -655,10 +672,13 @@ const RAD = Math.PI / 180.0;
 
                 // process each command in turn
                 var yOffset = this._yOffset, maxStackDepth = this._maxStackDepth;
+                var xOffset = this._xOffset;
                 var colourList = this._colourList, stack = this._stack;
                 var renderLineWidths = this._renderLineWidths;
                 var rad, width, colour, lastColour = null;
                 var c, len = cmds.length;
+                var minx = 99999, miny = 99999, maxx = -9999, maxy = -9999;
+
                 for (var i = 0; i < len; i++) {
                     c = cmds.charAt(i);
 
@@ -709,10 +729,10 @@ const RAD = Math.PI / 180.0;
                                         // render this element
                                         if (renderLineWidths) {
                                             width = (maxStackDepth - stack.length);
-                                            ctx.lineWidth = width >= 1 ? width : 1;
+                                            // ctx.lineWidth = width >= 1 ? width : 1;
                                         }
                                         else {
-                                            ctx.lineWidth = LINEWIDTH;
+                                            // ctx.lineWidth = LINEWIDTH;
                                         }
                                         colour = colourList[pos.colour];
                                         if (colour && lastColour !== colour) {
@@ -720,12 +740,37 @@ const RAD = Math.PI / 180.0;
                                             // ctx.strokeStyle = fg;
                                             lastColour = colour;
                                         }
-                                        ctx.strokeStyle = fg;
-                                        ctx.beginPath();
-                                        ctx.moveTo(lastX, HEIGHT - (lastY + yOffset));
-                                        ctx.lineTo(pos.x, HEIGHT - (pos.y + yOffset));
-                                        ctx.closePath();
-                                        ctx.stroke();
+
+
+                                        const x1 = (lastX + WIDTH / 2) || 0;
+                                        const x2 = (pos.x + WIDTH / 2) || 0;
+                                        const y1 = HEIGHT - (lastY + yOffset) || 0;
+                                        const y2 = HEIGHT - (pos.y + yOffset) || 0;
+
+
+
+
+                                        if (x1 < minx) minx = x1;
+                                        if (x2 < minx) minx = x2;
+                                        if (y1 < miny) miny = y1;
+                                        if (y2 < miny) miny = y2;
+
+                                        if (x1 > maxx) maxx = x1;
+                                        if (x2 > maxx) maxx = x2;
+                                        if (y1 > maxy) maxy = y1;
+                                        if (y2 > maxy) maxy = y2;
+
+
+                                        let line = document.createElementNS(svgNS, 'line');
+                                        line.setAttribute('x1', x1);
+                                        line.setAttribute('y1', y1);
+                                        line.setAttribute('x2', x2);
+                                        line.setAttribute('y2', y2);
+                                        line.setAttribute('stroke-width', LINEWIDTH);
+                                        line.setAttribute('stroke-linecap', 'square');
+                                        line.setAttribute('stroke', FORECOLOR);
+                                        svg.appendChild(line);
+
                                     }
                                     else {
                                         // remember min/max position
@@ -741,9 +786,30 @@ const RAD = Math.PI / 180.0;
                     }
                 }
 
+                console.log("limits", { minx, miny, maxx, maxy });
+
+                if (maxx > minx && maxy > miny) {
+
+                    var canvas = document.getElementById('canvas');
+                    // canvas.width = (maxx - minx);
+                    // canvas.height = (maxy - miny);
+
+                    var background = document.createElementNS(svgNS, 'rect');
+                    background.setAttribute('width', (maxx - minx));
+                    background.setAttribute('height', (maxy - miny));
+                    background.setAttribute('fill', BGCOLOR);
+                    background.setAttribute('x', minx);
+                    background.setAttribute('y', miny);
+
+                    svg.insertBefore(background, svg.childNodes[0]);
+
+
+                    svg.setAttribute("viewBox", minx + ' ' + miny + ' ' + (maxx - minx) + ' ' + (maxy - miny));
+                }
+
                 // finalise rendering
                 if (draw) {
-                    ctx.restore();
+                    // ctx.restore();
                 }
             }
         };
