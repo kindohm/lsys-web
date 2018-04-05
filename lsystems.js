@@ -84,14 +84,14 @@ function setInputsFromUrl() {
     var canvasWidthInput = document.getElementById("canvasWidthInput");
     var canvasHeightInput = document.getElementById("canvasHeightInput");
 
-    foreColorInput.value = params.foreColor || '#000';
-    bgColorInput.value = params.bgColor || '#ccc';
-    lineWidthInput.value = params.lineWidth || '2';
+    foreColorInput.value = params.foreColor || foreColorInput.value;
+    bgColorInput.value = params.bgColor || bgColorInput.value;
+    lineWidthInput.value = params.lineWidth || lineWidthInput.value;
     canvasWidthInput.value = params.canvasWidth || canvasWidthInput.value;
     canvasHeightInput.value = params.canvasHeight || canvasHeightInput.value;
 
-    iterationsInput.value = params.iterations || 3;
-    angleInput.value = params.angle || 90;
+    iterationsInput.value = params.iterations || iterationsInput.value;
+    angleInput.value = params.angle || angleInput.value;
     axiomInput.value = params.axiom || axiomInput.value;
     rule1Input.value = params.rule1 || rule1Input.value;
     rule2Input.value = params.rule2 || rule2Input.value;
@@ -99,8 +99,10 @@ function setInputsFromUrl() {
     rule4Input.value = params.rule4 || rule4Input.value;
     rule5Input.value = params.rule5 || rule5Input.value;
 
-    canvas.width = params.canvasWidth || 1500;
-    canvas.height = params.canvasHeight || 800;
+    canvas.width = canvasWidthInput.value;
+    canvas.height = canvasHeightInput.value;
+
+    console.log(canvas.width);
 }
 
 function getRandomIntInclusive(min, max) {
@@ -113,7 +115,6 @@ function getRandomAngle(){
     return getRandomIntInclusive(1,360);
     // const angles = [5,10,15,20,30,45,60,90,120,150,160];
     // return angles[getRandomIntInclusive(0,angles.length-1)];
-
 }
 
 function randomize() {
@@ -134,9 +135,7 @@ function randomize() {
 
 
     angleInput.value = getRandomAngle(); // getRandomIntInclusive(1, 360);
-    
-    
-    
+        
     lineWidthInput.value = getRandomIntInclusive(1, 3);
 
     var possibleLetters = ['J', 'K', 'L', 'M', 'N'];
@@ -288,6 +287,7 @@ function startHandler() {
     LINEWIDTH = parseInt(document.getElementById("lineWidthInput").value);
 
     document.getElementById('start').disabled = true;
+    document.getElementById('randomize').disabled = true;
     document.getElementById('lsystems').style.cursor = "wait";
 
     updateStatus("Generating command string...", generateCmdString);
@@ -392,6 +392,7 @@ function resetUI(msg) {
     updateStatus(msg);
     document.getElementById('lsystems').style.cursor = "";
     document.getElementById('start').disabled = false;
+    document.getElementById('randomize').disabled = false;
 }
 
 function updateStatus(msg, fn) {

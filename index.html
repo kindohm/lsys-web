@@ -4,127 +4,115 @@
 <!-- This code is a fork of the web app found at http://www.kevs3d.co.uk/dev/lsystems/ -->
 
 <head>
-      <title>lsystem web</title>
-      <script src="lsystems.js?v=7"></script>
+    <title>LSystem Generator</title>
+    <script src="lsystems.js?v=7"></script>
 
-      <style type="text/css">
-            /* body {
-                  background-color: #fff;
-                  font-family: sans-serif, Arial, Helvetica;
-                  color: #333;
-            } */
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
 
-            canvas {
-                  background-color: white;
-                  border: 1px solid #ccc;
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  z-index: -1;
-            }
+    <style type="text/css">
+        canvas {
+            background-color: white;
+            border: 1px solid #ccc;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
 
-            #lsystems {
-                  margin: 10px;
-            }
-      </style>
+        #lsystems {
+            margin: 10px;
+            background: rgba(0,0,0,0.1);
+            padding-top: 10px;
+        }
 
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-            crossorigin="anonymous">
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+    </style>
+
 </head>
 
 <body>
-      <div>
-            <div id="lsystems">
-                  <div id="form" class="text-right">
-                        <div>
-                              <span>Iterations:</span>
-                              <input id="iterations" type="text" value="12" style="width:4em" />
-                        </div>
-                        <div>
-                              <span>Angle:</span>
-
-
-                              <input id="angle" type="text" value="90" style="width:4em" />
-                        </div>
-                        <div>
-                              <span>Constants:</span>
-                              <input id="constants" type="text" value="" style="width:4em" />
-                        </div>
-                        <div>
-                              <span>Axoim:</span>
-
-                              <input id="axiom" type="text" value="FX" style="width:12em" />
-                        </div>
-                        <div>
-                              <span>Rule1:</span>
-
-                              <input id="rule1" type="text" value="X=X+YF+" style="width:30em" />
-                        </div>
-                        <div>
-                              <span>Rule2:</span>
-
-                              <input id="rule2" type="text" value="Y=-FX-Y" style="width:30em" />
-                        </div>
-                        <div>
-                              <span>Rule3:</span>
-
-                              <input id="rule3" type="text" value="" style="width:30em" />
-                        </div>
-                        <div>
-                              <span>Rule4:</span>
-
-                              <input id="rule4" type="text" value="" style="width:30em" />
-                        </div>
-                        <div>
-                              <span>Rule5:</span>
-
-                              <input id="rule5" type="text" value="" style="width:30em" />
-                        </div>
-                        <div>
-
-                              <span>bgcolor:</span>
-
-                              <input id="bgColorInput" type="text" value="#cccccc">
-                        </div>
-                        <div>
-                              <span>forecolor:</span>
-
-                              <input id="foreColorInput" type="text" value="#333333">
-                        </div>
-                        <div>
-                              <span>linewidth:</span>
-
-                              <input id="lineWidthInput" type="number" value="2"> </td>
-                        </div>
-
-                        <div>
-                              <span>canvaswidth:</span>
-
-                              <input id="canvasWidthInput" type="number" value="1200"> </td>
-                        </div>
-                        <div>
-                              <span>canvasheight:</span>
-
-                              <input id="canvasHeightInput" type="number" value="800"> </td>
-                        </div>
-
-                        <div>
-                              <input id="start" type="button" value="Render These Pararms" onclick="startHandler()" /><br />
-                              <input id="randomizeButton" type="button" value="Randomize Params and Render" onclick="randomize()">
-                              <!-- <input id="saveButton" type="button" value="save" onclick="save()"> -->
-                        </div>
-                        <p id="status" style="padding:4px;font-family:monospace">Press Start to begin.</p>
-                        <p id="imgContainer">
-                              Right-click here to save the image:<br/>
-                              <img id="img" style="max-width: 150px">
-                        </p>
-                  </div>
-
-
-
+    <div class="row justify-content-end">
+        <div id="lsystems" class="col-sm-2 text-right">
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Iterations:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="iterations" type="text" value="4" />
             </div>
-      </div>
-      <canvas id="canvas" width="1200" height="800" style="background-color: #ccc"></canvas>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Angle:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="angle" type="text" value="90" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Constants:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="constants" type="text" value="" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Axoim:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="axiom" type="text" value="FX" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Rule1:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="rule1" type="text" value="X=X+YF+" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Rule2:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="rule2" type="text" value="Y=-FX-Y" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Rule3:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="rule3" type="text" value="" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Rule4:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="rule4" type="text" value="" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">Rule5:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="rule5" type="text" value="" />
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">bgcolor:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="bgColorInput" type="text" value="#cccccc">
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">forecolor:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="foreColorInput" type="text" value="#333333">
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">linewidth:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="lineWidthInput" type="number" value="2"> </td>
+            </div>
+
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">canvaswidth:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="canvasWidthInput" type="number" value="1200"> </td>
+            </div>
+            <div class="form-group row justify-content-end">
+                <label class="col-sm-6 col-form-label col-form-label-sm">canvasheight:</label>
+                <input class="col-sm-6 form-control form-control-sm" id="canvasHeightInput" type="number" value="800"> </td>
+            </div>
+
+            <div class="form-group row justify-content-end">
+                <button class="btn btn-sm btn-primary" id="start" onclick="startHandler()">Render</button>&nbsp;
+                <button class="btn btn-sm btn-primary" id="randomize" onclick="randomize()">Randomize</button>
+            </div>
+            <div class="form-group row justify-content-end">
+                <div class="col-sm-12">
+                    <p id="status" style="font-family:monospace">Press Render or Randomize.</p>
+                    <p id="imgContainer">
+                        <img id="img" style="max-width: 150px">
+                    </p>
+                    <p>LSystem drawing code credit to http://www.kevs3d.co.uk/dev/lsystems/</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <canvas id="canvas" width="1200" height="800" style="background-color: #ccc"></canvas>
+
+
 
 </body>
 
