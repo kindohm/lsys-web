@@ -26,33 +26,25 @@ var randomColorPairs = [
     { a: '#501e00', b: '#5375b7' },
     { a: '#f0c7b2', b: '#08364e' },
     { a: '#bcf01f', b: '#410ce6' },
-    { a: '#734a27', b: '#91b7d7' },
     { a: '#fad635', b: '#0126ce' },
     { a: '#151367', b: '#f3f098' },
-    { a: '#460068', b: '#4c7f37' },
     { a: '#2fef7b', b: '#d80b84' },
     { a: '#700033', b: '#528a73' },
-    { a: '#54447a', b: '#8ca442' },
     { a: '#006f0d', b: '#ff8ee9' },
     { a: '#654648', b: '#42aca0' },
     { a: '#3a4b35', b: '#fa36e7' },
     { a: '#702424', b: '#95dbdb' },
     { a: '#9918fa', b: '#6af706' },
     { a: '#2f0798', b: '#d6ff67' },
-    { a: '#555c2f', b: '#aca6cf' },
     { a: '#fcfcfc', b: '#7d8af4' },
     { a: '#89fbbe', b: '#790040' },
     { a: '#284d12', b: '#ddb5f5' },
-    { a: '#4a4c50', b: '#db834c' },
     { a: '#363636', b: '#d85161' },
     { a: '#000c1f', b: '#86503d' },
     { a: '#a1391b', b: '#0fbbef' },
     { a: '#383838', b: '#df2eca' },
-    { a: '#0b0b0b', b: '#1c6a48' },
     { a: '#38e2f3', b: '#de1907' },
     { a: '#004dbd', b: '#f7854b' },
-    { a: '#374c0d', b: '#ccb6fb' },
-    { a: '#83008d', b: '#3bab3c' },
     { a: '#9716eb', b: '#6bfb14' },
     { a: '#185239', b: '#f4afca' }
 ];
@@ -117,6 +109,13 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
+function getRandomAngle(){
+    return getRandomIntInclusive(1,360);
+    // const angles = [5,10,15,20,30,45,60,90,120,150,160];
+    // return angles[getRandomIntInclusive(0,angles.length-1)];
+
+}
+
 function randomize() {
 
     var iterationsInput = document.getElementById("iterations");
@@ -131,8 +130,13 @@ function randomize() {
     var bgColorInput = document.getElementById("bgColorInput");
     var lineWidthInput = document.getElementById("lineWidthInput");
 
-    iterationsInput.value = getRandomIntInclusive(3, 6);
-    angleInput.value = getRandomIntInclusive(1, 360);
+    iterationsInput.value = getRandomIntInclusive(3, 5);
+
+
+    angleInput.value = getRandomAngle(); // getRandomIntInclusive(1, 360);
+    
+    
+    
     lineWidthInput.value = getRandomIntInclusive(1, 3);
 
     var possibleLetters = ['J', 'K', 'L', 'M', 'N'];
