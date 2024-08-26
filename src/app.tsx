@@ -49,6 +49,7 @@ const Form = styled.div`
   padding: 1rem;
   margin: 1rem;
   background-color: #cccccccc;
+  font-size: 0.75rem;
 `;
 
 const colorBits = [
@@ -72,6 +73,7 @@ const colorBits = [
 
 const Button = styled.button`
   width: 100%;
+  font-size: 0.75rem;
 `;
 
 function getRandomIntInclusive(min: number, max: number) {
@@ -182,24 +184,36 @@ export function App() {
             <Input
               label="Width"
               type="number"
+              min={1}
+              max={2000}
               value={formData.canvasWidth.toString()}
-              onChange={(v) =>
-                setFormData({ ...formData, canvasWidth: parseInt(v) })
-              }
+              onChange={(v) => {
+                const newFormData = { ...formData, canvasWidth: parseInt(v) };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
             />
           </div>
           <div className="col">
             <Input
               label="Background"
               value={formData.bgColor}
-              onChange={(v) => setFormData({ ...formData, bgColor: v })}
+              onChange={(v) => {
+                const newFormData = { ...formData, bgColor: v };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
             />
           </div>
           <div className="col">
             <Input
               label="Foreground"
               value={formData.foreColor}
-              onChange={(v) => setFormData({ ...formData, foreColor: v })}
+              onChange={(v) => {
+                const newFormData = { ...formData, foreColor: v };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
             />
           </div>
           <div className="col">
@@ -217,10 +231,14 @@ export function App() {
             <Input
               label="Height"
               type="number"
+              min={1}
+              max={2000}
               value={formData.canvasHeight.toString()}
-              onChange={(v) =>
-                setFormData({ ...formData, canvasHeight: parseInt(v) })
-              }
+              onChange={(v) => {
+                const newFormData = { ...formData, canvasHeight: parseInt(v) };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
             />
           </div>
           <div className="col">
@@ -230,9 +248,11 @@ export function App() {
               min={1}
               max={6}
               value={formData.iterations.toString()}
-              onChange={(v) =>
-                setFormData({ ...formData, iterations: parseInt(v) })
-              }
+              onChange={(v) => {
+                const newFormData = { ...formData, iterations: parseInt(v) };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
             />
           </div>
           <div className="col">
@@ -242,9 +262,11 @@ export function App() {
               min={1}
               max={6}
               value={formData.lineWeight.toString()}
-              onChange={(v) =>
-                setFormData({ ...formData, lineWeight: parseInt(v) })
-              }
+              onChange={(v) => {
+                const newFormData = { ...formData, lineWeight: parseInt(v) };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
             />
           </div>
           <div className="col">
@@ -278,9 +300,10 @@ export function App() {
           </div>
           <div className="col">
             <Button className="btn btn-primary btn-sm" onClick={randomize}>
-              Randomize & render
+              Randomize
             </Button>
           </div>
+          <div className="col"></div>
         </div>
 
         <div className="collapse" id="collapseExample">
@@ -289,21 +312,16 @@ export function App() {
               <Input
                 label="Angle"
                 type="number"
+                min={0}
+                max={360}
                 value={formData.angle.toString()}
-                onChange={(v) =>
-                  setFormData({ ...formData, angle: parseInt(v) })
-                }
+                onChange={(v) => {
+                  const newFormData = { ...formData, angle: parseInt(v) };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
-            <div className="col">
-              <Input
-                label="Axiom"
-                value={formData.axiom}
-                onChange={(v) => setFormData({ ...formData, axiom: v })}
-              />
-            </div>
-          </div>
-          <div className="row">
             <div className="col">
               <Input
                 disabled={true}
@@ -316,37 +334,68 @@ export function App() {
               <Input
                 label="Rule 1"
                 value={formData.rule1}
-                onChange={(v) => setFormData({ ...formData, rule1: v })}
+                onChange={(v) => {
+                  const newFormData = { ...formData, rule1: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
             <div className="col">
               <Input
                 label="Rule 2"
                 value={formData.rule2}
-                onChange={(v) => setFormData({ ...formData, rule2: v })}
+                onChange={(v) => {
+                  const newFormData = { ...formData, rule2: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
           </div>
           <div className="row">
             <div className="col">
               <Input
+                label="Axiom"
+                value={formData.axiom}
+                onChange={(v) => {
+                  const newFormData = { ...formData, axiom: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
+              />
+            </div>
+            <div className="col">
+              <Input
                 label="Rule 3"
                 value={formData.rule3}
-                onChange={(v) => setFormData({ ...formData, rule3: v })}
+                onChange={(v) => {
+                  const newFormData = { ...formData, rule3: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
             <div className="col">
               <Input
                 label="Rule 4"
                 value={formData.rule4}
-                onChange={(v) => setFormData({ ...formData, rule4: v })}
+                onChange={(v) => {
+                  const newFormData = { ...formData, rule4: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
             <div className="col">
               <Input
                 label="Rule 5"
                 value={formData.rule5}
-                onChange={(v) => setFormData({ ...formData, rule5: v })}
+                onChange={(v) => {
+                  const newFormData = { ...formData, rule5: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
           </div>

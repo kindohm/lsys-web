@@ -1,3 +1,9 @@
+import styled from "styled-components";
+
+const StyledInput = styled.input`
+  font-size: 0.75rem;
+`;
+
 export const Input = ({
   label,
   value,
@@ -18,7 +24,7 @@ export const Input = ({
   return (
     <div className="mb-1">
       <label className="form-label">{label}</label>
-      <input
+      <StyledInput
         disabled={disabled}
         className="form-control form-control-sm"
         id="constants"
