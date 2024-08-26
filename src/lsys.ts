@@ -53,16 +53,8 @@ export function startHandler({
   rule4,
   rule5,
   angle,
-  constants,
 }: StartArgs) {
-  // var canvas = document.getElementById("canvas");
-  // canvas.width = canvasWidth;
-  // canvas.height = canvasHeight;
-  // HEIGHT = canvas.height;
-  // WIDTH = canvas.width;
-  // FORECOLOR = foreColor;
-  // BGCOLOR = bgColor;
-  // LINEWIDTH = lineWeight;
+
 
   generateCmdString({
     iterations,
@@ -73,7 +65,6 @@ export function startHandler({
     rule4,
     rule5,
     angle,
-    constants,
     bgColor,
     foreColor,
     canvasHeight,
@@ -91,7 +82,6 @@ function generateCmdString({
   rule4,
   rule5,
   angle,
-  constants,
   bgColor,
   foreColor,
   canvasWidth,
@@ -106,7 +96,6 @@ function generateCmdString({
   rule4: string;
   rule5: string;
   angle: number;
-  constants: string;
   bgColor: string;
   foreColor: string;
   canvasWidth: number;
@@ -131,7 +120,6 @@ function generateCmdString({
 
     calcOffsets({
       angle,
-      constants,
       bgColor,
       foreColor,
       canvasWidth,
@@ -146,7 +134,6 @@ function generateCmdString({
 
 function calcOffsets({
   angle,
-  constants,
   bgColor,
   foreColor,
   canvasWidth,
@@ -155,7 +142,6 @@ function calcOffsets({
   commands,
 }: {
   angle: number;
-  constants: string;
   bgColor: string;
   foreColor: string;
   canvasWidth: number;
