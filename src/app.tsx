@@ -45,6 +45,8 @@ const defaultFormData: FormData = {
 const Form = styled.div`
   max-width: 400px;
   position: absolute;
+  right: 0;
+  top: 0;
   border: solid 1px #999;
   padding: 1rem;
   margin: 1rem;
@@ -152,7 +154,6 @@ const getRandomRules = () => {
 
 export function App() {
   const [formData, setFormData] = useState(defaultFormData);
-  const [, setFormOpen] = useState(true);
 
   const render = (data?: FormData) => {
     startHandler(data ? data : formData);
@@ -180,14 +181,6 @@ export function App() {
   return (
     <div>
       <Form>
-        <div className="row justify-content-end mx-1">
-          <button
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-            onClick={() => setFormOpen(false)}
-          ></button>
-        </div>
         <div className="row">
           <div className="col">
             <Input
