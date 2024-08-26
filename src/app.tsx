@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "./components/Input";
 import styled from "styled-components";
-import { startHandler } from "./lsys";
+import { run } from "./lsys";
 import { Checkbox } from "./components/Checkbox";
 import { randInt } from "./util/randInt";
 import { getRandomRules } from "./util/getRandomRules";
@@ -77,7 +77,7 @@ export function App() {
   }, [firstRender]);
 
   const render = (data?: FormData) => {
-    startHandler(data ? data : formData);
+    run(data ? data : formData);
   };
 
   const randomize = () => {
@@ -336,6 +336,7 @@ export function App() {
               />
             </div>
           </div>
+          
         </div>
       </Form>
       <canvas

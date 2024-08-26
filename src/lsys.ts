@@ -31,7 +31,7 @@ type Renderer = {
   setDistance: (dist: number) => void;
   getMinMaxValues: () => MinMaxValues;
   process: (
-    commands: string[],
+    commands: string,
     draw: boolean,
     bgColor: string,
     foreColor: string,
@@ -42,7 +42,7 @@ type Renderer = {
   setRenderLineWidths: (x: boolean) => void;
 };
 
-export function startHandler({
+export function run({
   canvasWidth,
   canvasHeight,
   foreColor,
@@ -59,7 +59,7 @@ export function startHandler({
 }: StartArgs) {
 
 
-  generateCmdString({
+  const commands = generateCmdString({
     iterations,
     axiom,
     rule1,
@@ -74,6 +74,9 @@ export function startHandler({
     canvasWidth,
     lineWeight,
   });
+
+
+  return commands;
 }
 
 function generateCmdString({
@@ -119,7 +122,8 @@ function generateCmdString({
     rule5 && lsys.addRule(rule5);
 
     // generate the cmd string
-    const commands: string[] = lsys.generate();
+    const commands: string = lsys.generate();
+
 
     calcOffsets({
       angle,
@@ -130,6 +134,8 @@ function generateCmdString({
       lineWeight,
       commands,
     });
+
+    return commands;
   } catch (e) {
     console.error(e);
   }
@@ -150,7 +156,7 @@ function calcOffsets({
   canvasWidth: number;
   canvasHeight: number;
   lineWeight: number;
-  commands: string[];
+  commands: string;
 }) {
   try {
     // @ts-ignore comes from .js file
@@ -202,7 +208,7 @@ function renderCmds({
   canvasWidth: number;
   canvasHeight: number;
   lineWeight: number;
-  commands: string[];
+  commands: string;
   renderer: Renderer;
 }) {
   try {
