@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { Input } from "./Input";
+import { useEffect, useState } from "react";
+import { Input } from "./components/Input";
 import styled from "styled-components";
 import { startHandler } from "./lsys";
-import { Checkbox } from "./Checkbox";
+import { Checkbox } from "./components/Checkbox";
+import { randInt } from "./util/randInt";
+import { getRandomRules } from "./util/getRandomRules";
+import { randColor } from "./util/randColor";
 
 type FormData = {
   angle: number;
@@ -23,20 +26,22 @@ type FormData = {
   randomizeLineWeight: boolean;
 };
 
+const initialRules = getRandomRules();
+
 const defaultFormData: FormData = {
   angle: 45,
   constants: "",
   iterations: 3,
-  axiom: "FX",
-  rule1: "X=X+YF+",
-  rule2: "Y=-FX-Y",
-  rule3: "",
-  rule4: "",
-  rule5: "",
-  bgColor: "#eee",
-  foreColor: "#666",
-  canvasWidth: 800,
-  canvasHeight: 512,
+  axiom: initialRules.axiom,
+  rule1: initialRules.rule1,
+  rule2: initialRules.rule2,
+  rule3: initialRules.rule3,
+  rule4: initialRules.rule4,
+  rule5: initialRules.rule5,
+  bgColor: randColor(),
+  foreColor: randColor(),
+  canvasWidth: 600,
+  canvasHeight: 600,
   lineWeight: 1,
   randomizeColors: true,
   randomizeLineWeight: false,
@@ -54,106 +59,21 @@ const Form = styled.div`
   font-size: 0.75rem;
 `;
 
-const colorBits = [
-  "0",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-];
-
 const Button = styled.button`
   width: 100%;
   font-size: 0.75rem;
 `;
 
-function getRandomIntInclusive(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
-}
-
-function getRandomColor() {
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += colorBits[getRandomIntInclusive(0, colorBits.length - 1)];
-  }
-  return color;
-}
-
-function createString(letters: string[], depth?: number) {
-  depth = depth || 1;
-  if (depth > 3) return "";
-
-  var letterCount = 0;
-  var final = "";
-  var rand = Math.random();
-  while (true) {
-    if (letterCount > 10) {
-      letterCount = 0;
-      final = "";
-    }
-
-    if (rand < 0.1) {
-      final += "+";
-    } else if (rand < 0.2) {
-      final += "-";
-    } else if (rand < 0.26) {
-      final += "[" + createString(letters, depth + 1) + "]";
-    } else if (rand > 0.26 && rand < 0.6) {
-      letterCount++;
-      final += letters[getRandomIntInclusive(0, letters.length - 1)];
-    } else if (letterCount > 1 && rand > 0.6) {
-      if (final.length > 30) {
-        // console.warn("way too big");
-        return createString(letters, depth);
-      }
-      return final;
-    }
-
-    rand = Math.random();
-  }
-  return final;
-}
-
-const getRandomRules = () => {
-  const possibleLetters = ["J", "K", "L", "M", "N"];
-  const letters = [];
-  const count = getRandomIntInclusive(2, 5);
-  while (letters.length < count) {
-    var index = getRandomIntInclusive(0, possibleLetters.length - 1);
-    letters.push(possibleLetters[index]);
-    possibleLetters.splice(index, 1);
-  }
-
-  const rule1 =
-    letters.length >= 1 ? letters[0] + "=" + createString(letters) : "";
-  const rule2 =
-    letters.length >= 2 ? letters[1] + "=" + createString(letters) : "";
-  const rule3 =
-    letters.length >= 3 ? letters[2] + "=" + createString(letters) : "";
-  const rule4 =
-    letters.length >= 4 ? letters[3] + "=" + createString(letters) : "";
-  const rule5 =
-    letters.length >= 5 ? letters[4] + "=" + createString(letters) : "";
-
-  const axiom = createString(letters);
-  return { axiom, rule1, rule2, rule3, rule4, rule5 };
-};
-
 export function App() {
   const [formData, setFormData] = useState(defaultFormData);
+  const [firstRender, setFirstRender] = useState(false);
+
+  useEffect(() => {
+    if (firstRender) {
+      return;
+    }
+    render();
+  }, [firstRender]);
 
   const render = (data?: FormData) => {
     startHandler(data ? data : formData);
@@ -165,16 +85,13 @@ export function App() {
     const newFormData = {
       ...formData,
       ...newRules,
-      bgColor: randomizeColors ? getRandomColor() : formData.bgColor,
-      foreColor: randomizeColors ? getRandomColor() : formData.foreColor,
-      iterations: getRandomIntInclusive(1, 6),
-      angle: getRandomIntInclusive(0, 364),
-      lineWeight: randomizeLineWeight
-        ? getRandomIntInclusive(1, 4)
-        : formData.lineWeight,
+      bgColor: randomizeColors ? randColor() : formData.bgColor,
+      foreColor: randomizeColors ? randColor() : formData.foreColor,
+      iterations: randInt(1, 6),
+      angle: randInt(0, 364),
+      lineWeight: randomizeLineWeight ? randInt(1, 4) : formData.lineWeight,
     };
     setFormData(newFormData);
-    // setTimeout(() => render(), 100);
     render(newFormData);
   };
 
