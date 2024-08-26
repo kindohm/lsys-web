@@ -1,16 +1,14 @@
-
 export const Input = ({
   label,
   value,
   onChange,
-  type = "text"
+  type = "text",
 }: {
   label: string;
   value: string;
   type?: string;
-  onChange: (e:string) => void;
+  onChange: (e: string) => void;
 }) => {
-
   return (
     <div className="mb-1">
       <label className="form-label">{label}</label>
