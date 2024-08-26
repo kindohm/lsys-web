@@ -1,9 +1,3 @@
-import styled from "styled-components";
-
-const StyledInput = styled.input`
-  font-size: 0.75rem;
-`;
-
 export const Input = ({
   label,
   value,
@@ -24,7 +18,8 @@ export const Input = ({
   return (
     <div className="mb-1">
       <label className="form-label">{label}</label>
-      <StyledInput
+
+      <input
         disabled={disabled}
         className="form-control form-control-sm"
         id="constants"
@@ -32,6 +27,7 @@ export const Input = ({
         min={min}
         max={max}
         value={value}
+        style={{ fontSize: "0.75rem" }}
         // @ts-ignore its ok
         onChange={(e) => onChange(e?.target?.value ?? "")}
       />

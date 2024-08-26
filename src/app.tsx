@@ -152,7 +152,7 @@ const getRandomRules = () => {
 
 export function App() {
   const [formData, setFormData] = useState(defaultFormData);
-  const [formOpen, setFormOpen] = useState(true);
+  const [, setFormOpen] = useState(true);
 
   const render = (data?: FormData) => {
     startHandler(data ? data : formData);

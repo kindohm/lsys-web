@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 type StartArgs = {
   canvasWidth: number;
   canvasHeight: number;
