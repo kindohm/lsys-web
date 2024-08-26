@@ -1,3 +1,5 @@
+// this code was originally sourced from http://www.kevs3d.co.uk/dev/lsystems/
+
 /**
  * LSystems root namespace.
  *

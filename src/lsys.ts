@@ -1,3 +1,6 @@
+// this code was originally sourced from http://www.kevs3d.co.uk/dev/lsystems/
+// it has been adapted to fit the needs of this app and has been converted to Typescript
+
 type StartArgs = {
   canvasWidth: number;
   canvasHeight: number;
