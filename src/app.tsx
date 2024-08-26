@@ -72,10 +72,12 @@ export function App() {
     if (firstRender) {
       return;
     }
+    setFirstRender(true);
     render();
   }, [firstRender]);
 
   const render = (data?: FormData) => {
+    console.log("rendering");
     startHandler(data ? data : formData);
   };
 
