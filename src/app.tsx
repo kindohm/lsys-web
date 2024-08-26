@@ -39,7 +39,7 @@ const defaultFormData: FormData = {
   canvasHeight: 512,
   lineWeight: 1,
   randomizeColors: true,
-  randomizeLineWeight: true,
+  randomizeLineWeight: false,
 };
 
 const Form = styled.div`
