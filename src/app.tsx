@@ -43,7 +43,7 @@ const defaultFormData: FormData = {
 };
 
 const Form = styled.div`
-  max-width: 800px;
+  max-width: 400px;
   position: absolute;
   border: solid 1px #999;
   padding: 1rem;
@@ -196,6 +196,23 @@ export function App() {
           </div>
           <div className="col">
             <Input
+              label="Height"
+              type="number"
+              min={1}
+              max={2000}
+              value={formData.canvasHeight.toString()}
+              onChange={(v) => {
+                const newFormData = { ...formData, canvasHeight: parseInt(v) };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+            <Input
               label="Background"
               value={formData.bgColor}
               onChange={(v) => {
@@ -216,31 +233,11 @@ export function App() {
               }}
             />
           </div>
-          <div className="col">
-            <Checkbox
-              label="Random colors"
-              checked={formData.randomizeColors}
-              onChange={(checked) =>
-                setFormData({ ...formData, randomizeColors: checked })
-              }
-            />
-          </div>
         </div>
+
+        <div className="row"></div>
+
         <div className="row">
-          <div className="col">
-            <Input
-              label="Height"
-              type="number"
-              min={1}
-              max={2000}
-              value={formData.canvasHeight.toString()}
-              onChange={(v) => {
-                const newFormData = { ...formData, canvasHeight: parseInt(v) };
-                setFormData(newFormData);
-                render(newFormData);
-              }}
-            />
-          </div>
           <div className="col">
             <Input
               label="Iterations"
@@ -269,9 +266,22 @@ export function App() {
               }}
             />
           </div>
+        </div>
+
+        <div className="row mt-1">
           <div className="col">
             <Checkbox
-              label="Random line weight"
+              label="Randomize colors"
+              checked={formData.randomizeColors}
+              onChange={(checked) =>
+                setFormData({ ...formData, randomizeColors: checked })
+              }
+            />
+          </div>
+
+          <div className="col">
+            <Checkbox
+              label="Randomize line weight"
               checked={formData.randomizeLineWeight}
               onChange={(checked) =>
                 setFormData({ ...formData, randomizeLineWeight: checked })
@@ -280,7 +290,20 @@ export function App() {
           </div>
         </div>
 
-        <div className="row mt-2 mb-2">
+        <div className="row">
+          <div className="col">
+            <Button className="btn btn-primary btn-sm" onClick={() => render()}>
+              Render
+            </Button>
+          </div>
+          <div className="col">
+            <Button className="btn btn-primary btn-sm" onClick={randomize}>
+              Randomize
+            </Button>
+          </div>
+        </div>
+
+        <div className="row mt-2">
           <div className="col">
             <Button
               className="btn btn-primary btn-sm"
@@ -293,21 +316,10 @@ export function App() {
               Show advanced
             </Button>
           </div>
-          <div className="col">
-            <Button className="btn btn-primary btn-sm" onClick={() => render()}>
-              Render
-            </Button>
-          </div>
-          <div className="col">
-            <Button className="btn btn-primary btn-sm" onClick={randomize}>
-              Randomize
-            </Button>
-          </div>
-          <div className="col"></div>
         </div>
 
         <div className="collapse" id="collapseExample">
-          <div className="row">
+          <div className="row mt-2">
             <div className="col">
               <Input
                 label="Angle"
@@ -330,6 +342,8 @@ export function App() {
                 onChange={(v) => setFormData({ ...formData, constants: v })}
               />
             </div>
+          </div>
+          <div className="row">
             <div className="col">
               <Input
                 label="Rule 1"
@@ -354,17 +368,7 @@ export function App() {
             </div>
           </div>
           <div className="row">
-            <div className="col">
-              <Input
-                label="Axiom"
-                value={formData.axiom}
-                onChange={(v) => {
-                  const newFormData = { ...formData, axiom: v };
-                  setFormData(newFormData);
-                  render(newFormData);
-                }}
-              />
-            </div>
+            {" "}
             <div className="col">
               <Input
                 label="Rule 3"
@@ -387,12 +391,25 @@ export function App() {
                 }}
               />
             </div>
+          </div>
+          <div className="row">
             <div className="col">
               <Input
                 label="Rule 5"
                 value={formData.rule5}
                 onChange={(v) => {
                   const newFormData = { ...formData, rule5: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
+              />
+            </div>
+            <div className="col">
+              <Input
+                label="Axiom"
+                value={formData.axiom}
+                onChange={(v) => {
+                  const newFormData = { ...formData, axiom: v };
                   setFormData(newFormData);
                   render(newFormData);
                 }}
