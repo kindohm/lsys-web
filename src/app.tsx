@@ -77,7 +77,6 @@ export function App() {
   }, [firstRender]);
 
   const render = (data?: FormData) => {
-    console.log("rendering");
     startHandler(data ? data : formData);
   };
 
