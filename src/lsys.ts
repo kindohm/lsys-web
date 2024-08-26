@@ -41,13 +41,6 @@ export function startHandler({
   angle,
   constants,
 }: StartArgs) {
-  // saveUrl();
-
-  // var canvasWidth = parseInt(document.getElementById("canvasWidthInput").value);
-  // var canvasHeight = parseInt(
-  //   document.getElementById("canvasHeightInput").value
-  // );
-
   var canvas = document.getElementById("canvas");
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
@@ -57,11 +50,6 @@ export function startHandler({
   BGCOLOR = bgColor;
   LINEWIDTH = lineWeight;
 
-  // document.getElementById("start").disabled = true;
-  // document.getElementById("randomize").disabled = true;
-  // document.getElementById("lsystems").style.cursor = "wait";
-
-  // updateStatus("Generating command string...", generateCmdString);
   generateCmdString({
     iterations,
     axiom,
@@ -75,9 +63,6 @@ export function startHandler({
   });
 }
 
-/**
- * L-Systems processing steps
- */
 function generateCmdString({
   iterations,
   axiom,
@@ -104,12 +89,7 @@ function generateCmdString({
     var lsys = new LSystems.LSystemsProcessor();
     lsys.iterations = iterations;
     lsys.axiom = axiom;
-    //   for (var i = 1; i <= 5; i++) {
-    //     var rule = document.getElementById("rule" + i).value;
-    //     if (rule && rule.length !== 0) {
-    //       lsys.addRule(rule);
-    //     }
-    //   }
+
     rule1 && lsys.addRule(rule1);
     rule2 && lsys.addRule(rule2);
     rule3 && lsys.addRule(rule3);
@@ -121,19 +101,9 @@ function generateCmdString({
     g_commands = lsys.generate();
     var after = new Date();
 
-    //   updateStatus(
-    //     "Commands: " +
-    //       g_commands.length +
-    //       " in " +
-    //       (after - before) +
-    //       "ms. Calculating offsets...",
-    //     calcOffsets
-    //   );
     calcOffsets({ angle, constants });
   } catch (e) {
-    // alert("Error during LSystemsProcessor.generate()\n" + e);
     console.error(e);
-    // resetUI("Press Start to begin.");
   }
 }
 
@@ -145,7 +115,6 @@ function calcOffsets({
   constants: string;
 }) {
   try {
-    // calc offset bounding box before render
     g_renderer = new LSystems.TurtleRenderer(WIDTH, HEIGHT);
     g_renderer.setAngle(angle);
     // g_renderer.setConstants(document.getElementById("constants").value);
@@ -154,15 +123,9 @@ function calcOffsets({
     g_renderer.process(g_commands, false);
     var after = new Date();
 
-    // updateStatus(
-    //   "Calculated boundry in " + (after - before) + "ms. Rendering...",
-    //   renderCmds
-    // );
     renderCmds({ angle });
   } catch (e) {
     console.error(e);
-    // alert("Error during TurtleRenderer.process()\n" + e);
-    // resetUI("Press Start to begin.");
   }
 }
 
@@ -195,17 +158,9 @@ function renderCmds({ angle }: { angle: number }) {
     g_renderer.setOffsets(xoffset, yoffset);
     g_renderer.setAngle(angle);
     g_renderer.setDistance(newDistance);
-    // var before = new Date();
     g_renderer.process(g_commands, true);
-    // var after = new Date();
-
-    // completed
-    // resetUI("Finished rendering in " + (after - before) + "ms.");
-    // renderImage();
   } catch (e) {
-    // alert("Error during TurtleRenderer.process(draw)\n" + e);
     console.error(e);
-    // resetUI("Press Start to begin.");
   }
 }
 
@@ -215,22 +170,6 @@ function renderImage() {
   var imgElement = document.getElementById("img");
   imgElement.setAttribute("src", img);
 }
-
-// function resetUI(msg) {
-//   g_renderer = null;
-//   g_commands = null;
-//   updateStatus(msg);
-//   document.getElementById("lsystems").style.cursor = "";
-//   document.getElementById("start").disabled = false;
-//   document.getElementById("randomize").disabled = false;
-// }
-
-// function updateStatus(msg, fn) {
-//   document.getElementById("status").innerHTML = msg;
-//   if (fn) {
-//     setTimeout(fn, 0);
-//   }
-// }
 
 var examples = [
   [
