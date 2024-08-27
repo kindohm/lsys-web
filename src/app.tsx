@@ -93,7 +93,7 @@ export function App() {
       foreColor: randomizeColors ? randColor() : formData.foreColor,
       iterations: randInt(1, 7),
       angle: randInt(0, 364),
-      lineWeight: randomizeLineWeight ? randInt(1, 4) : formData.lineWeight,
+      lineWeight: randomizeLineWeight ? randInt(1, 6) : formData.lineWeight,
     };
     setFormData(newFormData);
     render(newFormData);
@@ -190,7 +190,7 @@ export function App() {
               label="Line weight"
               type="number"
               min={1}
-              max={6}
+              max={20}
               value={formData.lineWeight.toString()}
               onChange={(v) => {
                 const newFormData = { ...formData, lineWeight: parseInt(v) };
