@@ -69,8 +69,6 @@ export function App() {
   const [firstRender, setFirstRender] = useState(false);
   const [busy, setBusy] = useState(false);
 
-  console.log(window)
-
   useEffect(() => {
     if (firstRender) {
       return;
@@ -93,7 +91,7 @@ export function App() {
       ...newRules,
       bgColor: randomizeColors ? randColor() : formData.bgColor,
       foreColor: randomizeColors ? randColor() : formData.foreColor,
-      iterations: randInt(1, 6),
+      iterations: randInt(1, 7),
       angle: randInt(0, 364),
       lineWeight: randomizeLineWeight ? randInt(1, 4) : formData.lineWeight,
     };
@@ -178,7 +176,7 @@ export function App() {
               label="Iterations"
               type="number"
               min={1}
-              max={6}
+              max={15}
               value={formData.iterations.toString()}
               onChange={(v) => {
                 const newFormData = { ...formData, iterations: parseInt(v) };
@@ -280,10 +278,13 @@ export function App() {
             </div>
             <div className="col">
               <Input
-                disabled={true}
                 label="Constants"
                 value={formData.constants}
-                onChange={(v) => setFormData({ ...formData, constants: v })}
+                onChange={(v) => {
+                  const newFormData = { ...formData, constants: v };
+                  setFormData(newFormData);
+                  render(newFormData);
+                }}
               />
             </div>
           </div>
@@ -366,7 +367,12 @@ export function App() {
         id="canvas"
         width={formData.canvasWidth}
         height={formData.canvasHeight}
-        style={{ backgroundColor: formData.bgColor, border: "solid 1px #333", margin: 0, padding: 0 }}
+        style={{
+          backgroundColor: formData.bgColor,
+          border: "solid 1px #333",
+          margin: 0,
+          padding: 0,
+        }}
       />
     </div>
   );

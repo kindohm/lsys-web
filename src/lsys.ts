@@ -28,6 +28,7 @@ type MinMaxValues = {
 type Renderer = {
   setOffsets: (xOffset: number, yOffset: number) => void;
   setAngle: (angle: number) => void;
+  setConstants: (constants: string) => void;
   setDistance: (dist: number) => void;
   getMinMaxValues: () => MinMaxValues;
   process: (
@@ -56,6 +57,7 @@ export function run({
   rule4,
   rule5,
   angle,
+  constants
 }: StartArgs) {
 
 
@@ -73,6 +75,7 @@ export function run({
     canvasHeight,
     canvasWidth,
     lineWeight,
+    constants
   });
 
 
@@ -93,6 +96,7 @@ function generateCmdString({
   canvasWidth,
   canvasHeight,
   lineWeight,
+  constants
 }: {
   iterations: number;
   axiom: string;
@@ -107,6 +111,7 @@ function generateCmdString({
   canvasWidth: number;
   canvasHeight: number;
   lineWeight: number;
+  constants: string;
 }) {
   // collect up Form input data required by the processor
   try {
@@ -133,6 +138,7 @@ function generateCmdString({
       canvasHeight,
       lineWeight,
       commands,
+      constants
     });
 
     return commands;
@@ -149,6 +155,7 @@ function calcOffsets({
   canvasHeight,
   lineWeight,
   commands,
+  constants
 }: {
   angle: number;
   bgColor: string;
@@ -157,6 +164,7 @@ function calcOffsets({
   canvasHeight: number;
   lineWeight: number;
   commands: string;
+  constants: string;
 }) {
   try {
     // @ts-ignore comes from .js file
@@ -165,7 +173,7 @@ function calcOffsets({
       canvasHeight
     );
     renderer.setAngle(angle);
-    // g_renderer.setConstants(document.getElementById("constants").value);
+    renderer.setConstants(constants);
     renderer.setRenderLineWidths(false);
     renderer.process(
       commands,

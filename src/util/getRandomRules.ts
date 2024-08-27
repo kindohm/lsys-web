@@ -21,8 +21,15 @@ export const getRandomRules = () => {
   const rule5 =
     letters.length >= 5 ? letters[4] + "=" + createString(letters) : "";
 
+  const constants = getConstants(letters);
   const axiom = createString(letters);
-  return { axiom, rule1, rule2, rule3, rule4, rule5 };
+  return { axiom, constants, rule1, rule2, rule3, rule4, rule5 };
+};
+
+const getConstants = (letters: string[]) => {
+  if (Math.random() < 0.25) return "";
+  const howMany = randInt(1, letters.length - 1);
+  return letters.slice(0, howMany).join(" ");
 };
 
 const createString = (letters: string[], depth?: number) => {
