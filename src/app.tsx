@@ -67,6 +67,7 @@ const Button = styled.button`
 export function App() {
   const [formData, setFormData] = useState(defaultFormData);
   const [firstRender, setFirstRender] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (firstRender) {
@@ -77,7 +78,9 @@ export function App() {
   }, [firstRender]);
 
   const render = (data?: FormData) => {
+    setBusy(true);
     run(data ? data : formData);
+    setBusy(false);
   };
 
   const randomize = () => {
@@ -135,6 +138,11 @@ export function App() {
             <Input
               label="Background"
               value={formData.bgColor}
+              randomize={() => {
+                const newFormData = { ...formData, bgColor: randColor() };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
               onChange={(v) => {
                 const newFormData = { ...formData, bgColor: v };
                 setFormData(newFormData);
@@ -146,6 +154,11 @@ export function App() {
             <Input
               label="Foreground"
               value={formData.foreColor}
+              randomize={() => {
+                const newFormData = { ...formData, foreColor: randColor() };
+                setFormData(newFormData);
+                render(newFormData);
+              }}
               onChange={(v) => {
                 const newFormData = { ...formData, foreColor: v };
                 setFormData(newFormData);
@@ -336,7 +349,6 @@ export function App() {
               />
             </div>
           </div>
-          
         </div>
       </Form>
       <canvas

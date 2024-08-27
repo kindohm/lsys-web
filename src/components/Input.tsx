@@ -1,3 +1,12 @@
+import styled from "styled-components";
+
+const LinkButton = styled.a`
+font-size: 0.75rem;
+padding-left: 0;
+margin-top: 0;
+padding-top: 0;
+`
+
 export const Input = ({
   label,
   value,
@@ -6,6 +15,7 @@ export const Input = ({
   disabled = false,
   min = 1,
   max = 10,
+  randomize,
 }: {
   label: string;
   value: string;
@@ -14,10 +24,17 @@ export const Input = ({
   max?: number;
   onChange: (e: string) => void;
   disabled?: boolean;
+  randomize?: () => void;
 }) => {
   return (
     <div className="mb-1">
-      <label className="form-label">{label}</label>
+      {randomize ? (
+        <LinkButton  className="btn btn-link" onClick={randomize}>
+          {label}
+        </LinkButton>
+      ) : (
+        <label className="form-label">{label}</label>
+      )}
 
       <input
         disabled={disabled}
