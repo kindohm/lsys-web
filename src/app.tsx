@@ -40,8 +40,8 @@ const defaultFormData: FormData = {
   rule5: initialRules.rule5,
   bgColor: randColor(),
   foreColor: randColor(),
-  canvasWidth: 600,
-  canvasHeight: 600,
+  canvasWidth: Math.floor(window.innerHeight * 0.99),
+  canvasHeight: Math.floor(window.innerHeight * 0.99),
   lineWeight: 1,
   randomizeColors: true,
   randomizeLineWeight: false,
@@ -68,6 +68,8 @@ export function App() {
   const [formData, setFormData] = useState(defaultFormData);
   const [firstRender, setFirstRender] = useState(false);
   const [busy, setBusy] = useState(false);
+
+  console.log(window)
 
   useEffect(() => {
     if (firstRender) {
@@ -225,12 +227,20 @@ export function App() {
 
         <div className="row">
           <div className="col">
-            <Button className="btn btn-primary btn-sm" onClick={() => render()}>
+            <Button
+              disabled={busy}
+              className="btn btn-primary btn-sm"
+              onClick={() => render()}
+            >
               Render
             </Button>
           </div>
           <div className="col">
-            <Button className="btn btn-primary btn-sm" onClick={randomize}>
+            <Button
+              disabled={busy}
+              className="btn btn-primary btn-sm"
+              onClick={randomize}
+            >
               Randomize
             </Button>
           </div>
@@ -239,6 +249,7 @@ export function App() {
         <div className="row mt-2">
           <div className="col">
             <Button
+              disabled={busy}
               className="btn btn-primary btn-sm"
               type="button"
               data-bs-toggle="collapse"
@@ -355,7 +366,7 @@ export function App() {
         id="canvas"
         width={formData.canvasWidth}
         height={formData.canvasHeight}
-        style={{ backgroundColor: formData.bgColor, border: "solid 1px #333" }}
+        style={{ backgroundColor: formData.bgColor, border: "solid 1px #333", margin: 0, padding: 0 }}
       />
     </div>
   );
